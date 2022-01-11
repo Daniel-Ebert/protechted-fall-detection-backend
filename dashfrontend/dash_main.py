@@ -9,6 +9,7 @@ from dash.exceptions import PreventUpdate
 class PlotlyDash():
     app: dash;
     logData: str = ""
+    textOnSite : str = ""
 
     def __init__(self):
         pass
@@ -25,6 +26,9 @@ class PlotlyDash():
         @self.app.callback(Output('liveupdate', 'children'),
                       Input('trigger', 'n_intervals'))
         def updateLog(n_intervals):
+            if self.textOnSite == self.logData:
+                raise PreventUpdate
+            self.textOnSite = self.logData
             return html.Plaintext(self.logData)
 
 

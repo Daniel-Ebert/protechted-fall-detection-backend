@@ -7,10 +7,10 @@ date: 2022-01-10
 
 import threading
 import sys
-from streamlitfrontend.streamlit_main import PlotlyDash
+from dashfrontend.dash_main import PlotlyDash
 
 
-class StreamlitStart(threading.Thread):
+class DashStart(threading.Thread):
 
     def __init__(self, threadID, name, counter):
         threading.Thread.__init__(self)
@@ -22,19 +22,11 @@ class StreamlitStart(threading.Thread):
     def getDashClass(self):
         return self.dash
     def run(self):
-        print("Starting Streamlit Thread " + self.name)
+        print("Starting Plotly Dash Thread " + self.name)
 
         self.dash = PlotlyDash()
         self.dash.runBackend()
-        print("Exiting Streamlit Thread" + self.name)
-
-        
-        """print(os.path.join(
-             'streamlitfrontend', 'streamlit_main.py'))
-        process = Popen(["streamlit", "run", os.path.join(
-             'streamlitfrontend', 'streamlit_main.py')], stdout=PIPE, stderr=PIPE)
-        (output, err) = process.communicate()
-        exit_code = process.wait()"""
+        print("Exiting Plotly Dash Thread" + self.name)
 
     def addLog(self, to_append: str):
         self.dash.addLog(to_append=to_append)
