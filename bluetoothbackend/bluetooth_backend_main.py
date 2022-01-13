@@ -1,5 +1,5 @@
 #https://github.com/matti644/btmon
-"""import bluetooth"""
+import bluetooth
 import time
 import sys
 
@@ -19,7 +19,7 @@ class BluetoothBackend:
     def serverStartup(self):
         s = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
 
-        server_address = 'B8:27:EB:43:05:5D'
+        server_address = '00:1A:7D:DA:71:06'
         server_port = 1
         backlog = 1
         size = 1024
@@ -31,7 +31,7 @@ class BluetoothBackend:
             client, clientInfo = s.accept()
             print("Connection established")
 
-            while (1):
+            while 1:
                 j = 0
                 msg = ""
                 for i in range(1, 100):
