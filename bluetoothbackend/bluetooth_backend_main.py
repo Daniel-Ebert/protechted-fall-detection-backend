@@ -33,7 +33,7 @@ class BluetoothBackend:
                     val = struct.unpack('f', val)[0]
                     print(" Sensor value " + str(val))
                     time.sleep(1)
-                    self.streamlit_start.addLog(to_append=" Sensor value " + str(val))
+                    self.streamlit_start.addLog(to_append=" Sensor value " + str(val) + "\n")
 
         finally:
             p.disconnect()

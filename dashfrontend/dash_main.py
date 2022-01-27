@@ -23,7 +23,7 @@ class PlotlyDash():
             "padding": "2rem 1rem",
         }
 
-        content = dbc.Container([dcc.Textarea(id='liveupdate', value="This will contain the log"),
+        content = dbc.Container([dcc.Textarea(id='liveupdate', value="This will contain the log", style={'width': '100%', 'height': '100%'}),
                                     dcc.Interval(interval=1000, n_intervals=0, id="trigger"),
                                     ], id="page-content", style=CONTENT_STYLE)
 
