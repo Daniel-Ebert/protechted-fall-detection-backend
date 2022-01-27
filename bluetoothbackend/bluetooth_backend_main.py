@@ -1,7 +1,10 @@
 #https://github.com/matti644/btmon
 #https://forum.arduino.cc/t/how-to-perform-read-and-write-between-raspberry-pi-4-and-arduino-nano-ble/628029
 #https://www.programcreek.com/python/example/97796/bluepy.btle.Peripheral
-import bluepy.btle as btle
+import binascii
+import struct
+import time
+from bluepy.btle import UUID, Peripheral
 import time
 import sys
 
@@ -14,19 +17,23 @@ class BluetoothBackend:
     def start(self):
         while True:
             """self.serverStartup()"""
-            time.sleep(10)
-            self.streamlit_start.addLog(to_append="Test")
-            self.connect("fff")
+            self.connect()
 
-    def connect(self, mac: str):
-            """Connect to a device."""
-            from bluepy.btle import Peripheral
-            match_result = re.search(r'hci([\d]+)', self.adapter)
-            if match_result is None:
-                raise BluetoothBackendException(
-                    'Invalid pattern "{}" for BLuetooth adpater. '
-                    'Expetected something like "hci0".'.format(self.adapter))
-            iface = int(match_result.group(1))
-            self._peripheral = Peripheral(mac, iface=iface, addrType=self.address_type)
-            print("Success")
-            print(self._peripheral)
+    def connect(self):
+        fall_det_uuid = UUID("ee4efbdc-7536-11ec-90d6-0242ac120003")
+
+        p = Peripheral("16:E0:EE:EC:1A:4D", "public")
+
+        try:
+            ch = p.getCharacteristics(uuid=fall_det_uuid)[0]
+            if (ch.supportsRead()):
+                while 1:
+                    val = binascii.b2a_hex(ch.read())
+                    val = binascii.unhexlify(val)
+                    val = struct.unpack('f', val)[0]
+                    print(" Sensor value " + str(val))
+                    time.sleep(1)
+                    self.streamlit_start.addLog(to_append=" Sensor value " + str(val))
+
+        finally:
+            p.disconnect()
