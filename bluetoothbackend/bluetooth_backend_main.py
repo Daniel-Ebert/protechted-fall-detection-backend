@@ -16,7 +16,7 @@ class BluetoothBackend:
 
     def start(self):
         while True:
-            """self.serverStartup()"""
+            print("Test")
             self.connect()
 
     def connect(self):
